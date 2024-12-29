@@ -53,18 +53,11 @@ import {
   
     return (
       <Toolbar range={range} onRangeChange={setRange} container={document.body} />
-    );
-  }
-  
-  function Toolbar({
-    range,
-    onRangeChange,
-    container,
-  }: {
-    range: Range;
-    onRangeChange: (range: Range | null) => void;
-    container: HTMLElement;
-  }) {
+  );
+}
+
+// Updated Toolbar function without the unused error parameter
+function Toolbar({ range, onRangeChange, container }: { range: Range; onRangeChange: (range: Range | null) => void; container: HTMLElement; }) {
     const [editor] = useLexicalComposerContext();
   
     const padding = 20;

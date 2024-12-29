@@ -4,9 +4,14 @@ import { getClerkUsers } from "@/lib/actions/user.actions";
 import { currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation";
 
-const Document = async ({ params: { id } }: SearchParamProps) => {
+const Document = async ({ params }: { params: { id: string } }) => {
+  // Await the params to ensure they are resolved
+  const resolvedParams = await params; // Await the params
+
   const clerkUser  = await currentUser ();
   if (!clerkUser ) redirect('/sign-in');
+
+  const { id } = resolvedParams; // Destructure 'id' from the awaited params
 
   const email = clerkUser .emailAddresses[0]?.emailAddress;
   if (!email) {
