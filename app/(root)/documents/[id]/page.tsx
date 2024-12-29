@@ -5,7 +5,6 @@ import { currentUser } from "@clerk/nextjs/server"
 import { redirect } from "next/navigation";
 
 const Document = async ({ params }: { params: { id: string } }) => {
-  // Await the params to ensure they are resolved
   const resolvedParams = await params; // Await the params
 
   const clerkUser  = await currentUser ();

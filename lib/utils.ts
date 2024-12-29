@@ -5,7 +5,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export const parseStringify = (value: any) => JSON.parse(JSON.stringify(value));
+export const parseStringify = <T>(value: T): T => JSON.parse(JSON.stringify(value));
 
 export const getAccessType = (userType: UserType) => {
   switch (userType) {
@@ -57,7 +57,7 @@ export function getRandomColor() {
     const b = Math.floor(Math.random() * 256);
 
     // Convert RGB to hex format
-    randomColor = `#${r.toString(16)}${g.toString(16)}${b.toString(16)}`;
+    randomColor = `#${r.toString(16).padStart(2, '0')}${g.toString(16).padStart(2, '0')}${b.toString(16).padStart(2, '0')}`;
   } while (avoidColors.includes(randomColor));
 
   return randomColor;

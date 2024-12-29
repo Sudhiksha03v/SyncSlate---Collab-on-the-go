@@ -53,11 +53,18 @@ import {
   
     return (
       <Toolbar range={range} onRangeChange={setRange} container={document.body} />
-  );
-}
-
-// Updated Toolbar function without the unused error parameter
-function Toolbar({ range, onRangeChange, container }: { range: Range; onRangeChange: (range: Range | null) => void; container: HTMLElement; }) {
+    );
+  }
+  
+  function Toolbar({
+    range,
+    onRangeChange,
+    container,
+  }: {
+    range: Range;
+    onRangeChange: (range: Range | null) => void;
+    container: HTMLElement;
+  }) {
     const [editor] = useLexicalComposerContext();
   
     const padding = 20;
@@ -238,9 +245,10 @@ function Toolbar({ range, onRangeChange, container }: { range: Range; onRangeCha
     try {
       range.setStart(anchorDOM, anchorOffset);
       range.setEnd(focusDOM, focusOffset);
-    } catch (error) {
-      return null;
+    } catch {
+      return null; // Updated to remove the unused 'error' variable
     }
+    
   
     if (
       range.collapsed &&
