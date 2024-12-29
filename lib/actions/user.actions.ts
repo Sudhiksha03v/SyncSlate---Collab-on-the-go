@@ -4,7 +4,8 @@ import { clerkClient } from "@clerk/nextjs/server";
 import { parseStringify } from "../utils";
 import { liveblocks } from "../liveblocks";
 
-interface ClerkUser {
+// Export the ClerkUser interface so it can be imported in other files
+export interface ClerkUser {
   id: string;
   firstName: string;
   lastName: string;
@@ -13,7 +14,7 @@ interface ClerkUser {
 }
 
 interface GetUserListResponse {
-  data: ClerkUser[]; // Assuming 'data' is an array of ClerkUser objects
+  data: ClerkUser[];
 }
 
 export const getClerkUsers = async ({ userIds }: { userIds: string[] }) => {
@@ -30,6 +31,7 @@ export const getClerkUsers = async ({ userIds }: { userIds: string[] }) => {
       avatar: user.imageUrl,
     }));
 
+    // Sorting users based on userIds
     const sortedUsers = userIds.map((email) =>
       users.find((user) => user.email === email)
     );
