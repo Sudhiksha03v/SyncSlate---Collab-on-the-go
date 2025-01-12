@@ -25,23 +25,36 @@ const Document = async ({ params }: { params: { id: string } }) => {
 
   if(!room) redirect('/');
 
+  const { usersAccesses, metadata, email: roomEmail, title } = room as unknown as {
+      usersAccesses: { [email: string]: string[] },
+      metadata: any,
+      email: string,
+      title: string
+    };
+
   const userIds = Object.keys(room.usersAccesses);
   const users = await getClerkUsers({ userIds });
 
-  const usersData = users.map((user: User) => ({
-    ...user,
-    userType: room.usersAccesses[user.email]?.includes('room:write')
-      ? 'editor'
-      : 'viewer'
-  }))
+  const usersData = (users || [])
+    .filter((user): user is User => user !== undefined)
+    .map((user: User) => ({
+      ...user,
+      userType: (room.usersAccesses[user.email] as string[])?.includes('room:write')
+        ? 'editor' as UserType
+        : 'viewer' as UserType
+    }))
 
-  const currentUserType = room.usersAccesses[clerkUser.emailAddresses[0].emailAddress]?.includes('room:write') ? 'editor' : 'viewer';
+  const currentUserType = (room.usersAccesses[clerkUser.emailAddresses[0].emailAddress] as string[])?.includes('room:write') ? 'editor' : 'viewer';
 
   return (
     <main className="flex w-full flex-col items-center">
       <CollaborativeRoom 
         roomId={id}
-        roomMetadata={room.metadata}
+        roomMetadata={{
+          creatorId: room.metadata.creatorId as string,
+          email: Array.isArray(room.metadata.email) ? room.metadata.email.join(', ') : room.metadata.email,
+          title: Array.isArray(room.metadata.title) ? room.metadata.title.join(', ') : room.metadata.title
+        }}
         users={usersData}
         currentUserType={currentUserType}
       />

@@ -12,19 +12,53 @@ import { redirect } from 'next/navigation';
 
 const Home = async () => {
   const clerkUser = await currentUser();
-  if(!clerkUser) redirect('/sign-in');
+  if(!clerkUser) redirect('/landing');
 
-  // Define the interface for room documents
+// Define the interface for room documents
 interface RoomDocument {
   id: string;
   metadata: {
     title: string;
+    creatorId: string;
+    email: string;
   };
   createdAt: string;
 }
 
+// Define the interface for the response data
+interface ImportedRoomData {
+  id: string;
+  metadata: {
+    title: string;
+    creatorId: string;
+    email: string;
+  };
+  createdAt: string;
+}
+
+interface RoomMetadata {
+  title: string;
+  creatorId: string;
+  email: string;
+}
+
+interface RoomData {
+  id: string;
+  metadata: RoomMetadata;
+  createdAt: string;
+}
+
 // Fetch documents with the specified type
-const roomDocuments: RoomDocument[] = await getDocuments(clerkUser .emailAddresses[0].emailAddress);
+const documentsResponse = await getDocuments(clerkUser.emailAddresses[0].emailAddress);
+const roomDocuments: RoomDocument[] = documentsResponse ? (documentsResponse.data as unknown as ImportedRoomData[]).map((doc: ImportedRoomData) => ({
+  id: doc.id,
+  metadata: {
+    title: doc.metadata.title,
+    creatorId: doc.metadata.creatorId,
+    email: doc.metadata.email,
+  },
+  createdAt: doc.createdAt,
+})) : [];
 
   return (
     <main className="home-container">
@@ -89,4 +123,3 @@ const roomDocuments: RoomDocument[] = await getDocuments(clerkUser .emailAddress
 }
   
   export default Home
-
