@@ -36,13 +36,13 @@ interface ImportedRoomData {
   createdAt: string;
 }
 
-interface RoomMetadata {
-  title: string;
-  creatorId: string;
-  email: string;
-}
+// interface RoomMetadata {
+//   title: string;
+//   creatorId: string;
+//   email: string;
+// }
 
-// interface RoomData {
+// // interface RoomData {
 //   id: string;
 //   metadata: RoomMetadata;
 //   createdAt: string;

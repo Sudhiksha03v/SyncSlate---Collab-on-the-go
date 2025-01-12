@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import Image from 'next/image';
 import Header from '@/components/Header'; // Import your Header component
 
 const LandingPage = () => {
@@ -36,7 +37,7 @@ const LandingPage = () => {
         <div className="max-w-6xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 px-4">
           <div className="flex flex-col items-center text-center">
             <div className="p-4 bg-blue-500 rounded-full">
-              <img src="/assets/icons/collaboration.png" alt="Collaboration Icon" className="w-10 h-10" />
+            <Image src="/assets/icons/collaboration.png" alt="Collaboration Icon" width={40} height={40} />
             </div>
             <h3 className="mt-3 text-lg font-semibold">Real-time Collaboration</h3>
             <p className="mt-2 text-sm text-gray-400">
@@ -46,7 +47,8 @@ const LandingPage = () => {
 
           <div className="flex flex-col items-center text-center">
             <div className="p-4 bg-blue-500 rounded-full">
-              <img src="/assets/icons/security.png" alt="Secure Icon" className="w-10 h-10" />
+            <Image src="/assets/icons/security.png" alt="Secure Icon" width={40} height={40} />
+
             </div>
             <h3 className="mt-3 text-lg font-semibold">Secure & Reliable</h3>
             <p className="mt-2 text-sm text-gray-400">
