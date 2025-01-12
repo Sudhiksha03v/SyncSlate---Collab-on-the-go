@@ -7,15 +7,15 @@ import { redirect } from "next/navigation";
 const Document = async ({ params }: { params: { id: string } }) => {
   const resolvedParams = await params; // Await the params
 
-  const clerkUser  = await currentUser ();
-  if (!clerkUser ) redirect('/sign-in');
+  const clerkUser = await currentUser();
+  if (!clerkUser) redirect('/sign-in');
 
   const { id } = resolvedParams; // Destructure 'id' from the awaited params
 
-  const email = clerkUser .emailAddresses[0]?.emailAddress;
+  const email = clerkUser.emailAddresses[0].emailAddress;
   if (!email) {
-      // Handle the case where email is not available
-      redirect('/sign-in');
+    // Handle the case where email is not available
+    redirect('/sign-in');
   }
 
   const room = await getDocument({
@@ -23,14 +23,7 @@ const Document = async ({ params }: { params: { id: string } }) => {
     userId: clerkUser.emailAddresses[0].emailAddress,
   });
 
-  if(!room) redirect('/');
-
-  const { usersAccesses, metadata, email: roomEmail, title } = room as unknown as {
-      usersAccesses: { [email: string]: string[] },
-      metadata: any,
-      email: string,
-      title: string
-    };
+  if (!room) redirect('/');
 
   const userIds = Object.keys(room.usersAccesses);
   const users = await getClerkUsers({ userIds });
@@ -42,24 +35,24 @@ const Document = async ({ params }: { params: { id: string } }) => {
       userType: (room.usersAccesses[user.email] as string[])?.includes('room:write')
         ? 'editor' as UserType
         : 'viewer' as UserType
-    }))
+    }));
 
   const currentUserType = (room.usersAccesses[clerkUser.emailAddresses[0].emailAddress] as string[])?.includes('room:write') ? 'editor' : 'viewer';
 
   return (
     <main className="flex w-full flex-col items-center">
-      <CollaborativeRoom 
+      <CollaborativeRoom
         roomId={id}
         roomMetadata={{
           creatorId: room.metadata.creatorId as string,
-          email: Array.isArray(room.metadata.email) ? room.metadata.email.join(', ') : room.metadata.email,
-          title: Array.isArray(room.metadata.title) ? room.metadata.title.join(', ') : room.metadata.title
+          email: room.metadata.email as string,
+          title: room.metadata.title as string
         }}
         users={usersData}
         currentUserType={currentUserType}
       />
     </main>
-  )
-}
+  );
+};
 
 export default Document

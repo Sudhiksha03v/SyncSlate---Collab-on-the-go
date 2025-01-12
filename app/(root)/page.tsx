@@ -42,11 +42,11 @@ interface RoomMetadata {
   email: string;
 }
 
-interface RoomData {
-  id: string;
-  metadata: RoomMetadata;
-  createdAt: string;
-}
+// interface RoomData {
+//   id: string;
+//   metadata: RoomMetadata;
+//   createdAt: string;
+// }
 
 // Fetch documents with the specified type
 const documentsResponse = await getDocuments(clerkUser.emailAddresses[0].emailAddress);
